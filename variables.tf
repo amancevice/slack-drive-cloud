@@ -6,7 +6,7 @@ variable "cloud_project" {
   description = "The ID of the project to apply any resources to."
 }
 
-variable "cloud_region"{
+variable "cloud_region" {
   description = "The region to operate under, if not specified by a given resource."
 }
 
@@ -41,7 +41,6 @@ variable "event_consumer_timeout" {
 
 variable "event_consumer_archive_name" {
   description = "Name of event consumer archive"
-  default     = "slack-drive-event-consumer-0.0.1.zip"
 }
 
 variable "event_consumer_archive_source" {
@@ -65,7 +64,6 @@ variable "event_publisher_timeout" {
 
 variable "event_publisher_archive_name" {
   description = "Name of event publisher archive"
-  default     = "slack-drive-event-publisher-0.0.1.zip"
 }
 
 variable "event_publisher_archive_source" {
@@ -89,7 +87,6 @@ variable "redirect_timeout" {
 
 variable "redirect_archive_name" {
   description = "Name of redirect archive"
-  default     = "slack-drive-redirect-0.0.1.zip"
 }
 
 variable "redirect_archive_source" {
@@ -113,7 +110,6 @@ variable "slash_command_timeout" {
 
 variable "slash_command_archive_name" {
   description = "Name of slash command archive"
-  default     = "slack-drive-slash-command-0.0.1.zip"
 }
 
 variable "slash_command_archive_source" {

@@ -11,107 +11,101 @@ variable "cloud_region" {
 }
 
 variable "bucket_name" {
-  description = "Cloud Storage bucket for storing Cloud Function code archives"
+  description = "Cloud Storage bucket for storing Cloud Function code archives."
 }
 
 variable "bucket_storage_class" {
-  description = "Bucket storage class"
+  description = "Bucket storage class."
   default     = "MULTI_REGIONAL"
 }
 
+variable "bucket_prefix" {
+  description = "Prefix for Cloud Storage bucket."
+  default     = ""
+}
+
+variable "source_prefix" {
+  description = "Prefix for local source."
+  default     = "./"
+}
+
 variable "events_pubsub_topic" {
-  description = "Pub/Sub topic name"
+  description = "Pub/Sub topic name."
   default     = "slack-drive-events"
 }
 
 variable "event_consumer_function_name" {
-  description = "Cloud Function for consuming events published to Pub/Sub"
+  description = "Cloud Function for consuming events published to Pub/Sub."
   default     = "slack-drive-event-consumer"
 }
 
 variable "event_consumer_memory" {
-  description = "Memory for Slack event consumer"
+  description = "Memory for Slack event consumer."
   default     = 128
 }
 
 variable "event_consumer_timeout" {
-  description = "Timeout in seconds for Slack event consumer"
+  description = "Timeout in seconds for Slack event consumer."
   default     = 60
 }
 
-variable "event_consumer_archive_name" {
-  description = "Name of event consumer archive"
-}
-
-variable "event_consumer_archive_source" {
-  description = "Path to archive for event consumer archive"
+variable "event_consumer_version" {
+  description = "Event consumer version."
 }
 
 variable "event_publisher_function_name" {
-  description = "Cloud Function for publishing events from Slack to Pub/Sub"
+  description = "Cloud Function for publishing events from Slack to Pub/Sub."
   default     = "slack-drive-event-publisher"
 }
 
 variable "event_publisher_memory" {
-  description = "Memory for Slack event listener"
+  description = "Memory for Slack event listener."
   default     = 128
 }
 
 variable "event_publisher_timeout" {
-  description = "Timeout in seconds for Slack event listener"
+  description = "Timeout in seconds for Slack event listener."
   default     = 60
 }
 
-variable "event_publisher_archive_name" {
-  description = "Name of event publisher archive"
-}
-
-variable "event_publisher_archive_source" {
-  description = "Path to archive for event publisher archive"
+variable "event_publisher_version" {
+  description = "Event publisher version."
 }
 
 variable "redirect_function_name" {
-  description = "Cloud Function for redirecting to Google Drive from Slack"
+  description = "Cloud Function for redirecting to Google Drive from Slack."
   default     = "slack-drive-redirect"
 }
 
 variable "redirect_memory" {
-  description = "Memory for Slack redirect"
+  description = "Memory for Slack redirect."
   default     = 128
 }
 
 variable "redirect_timeout" {
-  description = "Timeout in seconds for redirect"
+  description = "Timeout in seconds for redirect."
   default     = 60
 }
 
-variable "redirect_archive_name" {
-  description = "Name of redirect archive"
-}
-
-variable "redirect_archive_source" {
-  description = "Path to archive for redirect archive"
+variable "redirect_version" {
+  description = "Redirect version."
 }
 
 variable "slash_command_function_name" {
-  description = "Cloud Function for receiving slash-commands from Slack"
+  description = "Cloud Function for receiving slash-commands from Slack."
   default     = "slack-drive-slash-command"
 }
 
 variable "slash_command_memory" {
-  description = "Memory for Slack slash command"
+  description = "Memory for Slack slash command."
   default     = 128
 }
 
 variable "slash_command_timeout" {
-  description = "Timeout in seconds for Slack slash command"
+  description = "Timeout in seconds for Slack slash command."
   default     = 60
 }
 
-variable "slash_command_archive_name" {
-  description = "Name of slash command archive"
-}
-
-variable "slash_command_archive_source" {
-  description = "Path to archive for slash command archive"
+variable "slash_command_version" {
+  description = "Slash command version."
 }

@@ -30,7 +30,7 @@ variable "bucket_prefix" {
 
 variable "source_prefix" {
   description = "Prefix for local source."
-  default     = "./"
+  default     = "dist"
 }
 
 variable "events_pubsub_topic" {

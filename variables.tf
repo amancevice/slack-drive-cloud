@@ -10,6 +10,10 @@ variable "cloud_region" {
   description = "The region to operate under, if not specified by a given resource."
 }
 
+variable "app_version" {
+  description = "Slack Drive version."
+}
+
 variable "bucket_name" {
   description = "Cloud Storage bucket for storing Cloud Function code archives."
 }
@@ -49,10 +53,6 @@ variable "event_consumer_timeout" {
   default     = 60
 }
 
-variable "event_consumer_version" {
-  description = "Event consumer version."
-}
-
 variable "event_publisher_function_name" {
   description = "Cloud Function for publishing events from Slack to Pub/Sub."
   default     = "slack-drive-event-publisher"
@@ -66,10 +66,6 @@ variable "event_publisher_memory" {
 variable "event_publisher_timeout" {
   description = "Timeout in seconds for Slack event listener."
   default     = 60
-}
-
-variable "event_publisher_version" {
-  description = "Event publisher version."
 }
 
 variable "redirect_function_name" {
@@ -87,10 +83,6 @@ variable "redirect_timeout" {
   default     = 60
 }
 
-variable "redirect_version" {
-  description = "Redirect version."
-}
-
 variable "slash_command_function_name" {
   description = "Cloud Function for receiving slash-commands from Slack."
   default     = "slack-drive-slash-command"
@@ -104,8 +96,4 @@ variable "slash_command_memory" {
 variable "slash_command_timeout" {
   description = "Timeout in seconds for Slack slash command."
   default     = 60
-}
-
-variable "slash_command_version" {
-  description = "Slash command version."
 }

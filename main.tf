@@ -12,26 +12,26 @@ resource "google_storage_bucket" "slack_drive_bucket" {
 
 resource "google_storage_bucket_object" "event_consumer_archive" {
   bucket = "${google_storage_bucket.slack_drive_bucket.name}"
-  name   = "${var.bucket_prefix}${var.event_consumer_function_name}-${var.event_consumer_version}.zip"
-  source = "${var.source_prefix}${var.event_consumer_function_name}-${var.event_consumer_version}.zip"
+  name   = "${var.bucket_prefix}${var.event_consumer_function_name}-${var.app_version}.zip"
+  source = "${var.source_prefix}${var.event_consumer_function_name}-${var.app_version}.zip"
 }
 
 resource "google_storage_bucket_object" "event_publisher_archive" {
   bucket = "${google_storage_bucket.slack_drive_bucket.name}"
-  name   = "${var.bucket_prefix}${var.event_publisher_function_name}-${var.event_publisher_version}.zip"
-  source = "${var.source_prefix}${var.event_publisher_function_name}-${var.event_publisher_version}.zip"
+  name   = "${var.bucket_prefix}${var.event_publisher_function_name}-${var.app_version}.zip"
+  source = "${var.source_prefix}${var.event_publisher_function_name}-${var.app_version}.zip"
 }
 
 resource "google_storage_bucket_object" "redirect_archive" {
   bucket = "${google_storage_bucket.slack_drive_bucket.name}"
-  name   = "${var.bucket_prefix}${var.redirect_function_name}-${var.redirect_version}.zip"
-  source = "${var.source_prefix}${var.redirect_function_name}-${var.redirect_version}.zip"
+  name   = "${var.bucket_prefix}${var.redirect_function_name}-${var.app_version}.zip"
+  source = "${var.source_prefix}${var.redirect_function_name}-${var.app_version}.zip"
 }
 
 resource "google_storage_bucket_object" "slash_command_archive" {
   bucket = "${google_storage_bucket.slack_drive_bucket.name}"
-  name   = "${var.bucket_prefix}${var.slash_command_function_name}-${var.slash_command_version}.zip"
-  source = "${var.source_prefix}${var.slash_command_function_name}-${var.slash_command_version}.zip"
+  name   = "${var.bucket_prefix}${var.slash_command_function_name}-${var.app_version}.zip"
+  source = "${var.source_prefix}${var.slash_command_function_name}-${var.app_version}.zip"
 }
 
 resource "google_pubsub_topic" "slack_events" {

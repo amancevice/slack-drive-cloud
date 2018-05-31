@@ -30,7 +30,7 @@ variable "bucket_prefix" {
 
 variable "source_prefix" {
   description = "Prefix for local source."
-  default     = "dist"
+  default     = "dist/"
 }
 
 variable "events_pubsub_topic" {
@@ -81,6 +81,10 @@ variable "redirect_memory" {
 variable "redirect_timeout" {
   description = "Timeout in seconds for redirect."
   default     = 60
+}
+
+variable "service_account" {
+  description = "An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com."
 }
 
 variable "slash_command_function_name" {

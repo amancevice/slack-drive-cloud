@@ -10,6 +10,12 @@ resource "google_storage_bucket" "slack_drive_bucket" {
   storage_class = "${var.bucket_storage_class}"
 }
 
+resource "google_storage_bucket_iam_member" "member" {
+  bucket = "${var.bucket_name}"
+  role   = "roles/storage.objectCreator"
+  member = "serviceAccount:${var.service_account}"
+}
+
 resource "google_storage_bucket_object" "event_consumer_archive" {
   bucket = "${google_storage_bucket.slack_drive_bucket.name}"
   name   = "${var.bucket_prefix}${var.event_consumer_function_name}-${var.app_version}.zip"

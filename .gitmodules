@@ -1,3 +1,0 @@
-[submodule "slack-drive"]
-	path = slack-drive
-	url = git@github.com:amancevice/slack-drive

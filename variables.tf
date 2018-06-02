@@ -1,23 +1,33 @@
-variable "cloud_credentials" {
-  description = "Contents of the JSON file used to describe your account credentials, downloaded from Google Cloud Console."
-}
-
-variable "cloud_project" {
-  description = "The ID of the project to apply any resources to."
-}
-
-variable "cloud_region" {
-  description = "The region to operate under, if not specified by a given resource."
-}
-
-variable "app_version" {
-  description = "Slack Drive version."
-}
-
+/**
+ * Required Variables
+ */
 variable "bucket_name" {
   description = "Cloud Storage bucket for storing Cloud Function code archives."
 }
 
+variable "channel" {
+  description = "Slack channel ID for logging messages."
+}
+
+variable "project" {
+  description = "The ID of the project to apply any resources to."
+}
+
+variable "service_account" {
+  description = "An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com."
+}
+
+variable "verification_token" {
+  description = "Slack verification token."
+}
+
+variable "web_api_token" {
+  description = "Slack Web API token."
+}
+
+/**
+ * Optional Variables
+ */
 variable "bucket_storage_class" {
   description = "Bucket storage class."
   default     = "MULTI_REGIONAL"
@@ -28,9 +38,9 @@ variable "bucket_prefix" {
   default     = ""
 }
 
-variable "source_prefix" {
-  description = "Prefix for local source."
-  default     = "dist/"
+variable "color" {
+  description = "Default color for slackbot message attachments."
+  default     = "good"
 }
 
 variable "events_pubsub_topic" {
@@ -83,8 +93,14 @@ variable "redirect_timeout" {
   default     = 60
 }
 
-variable "service_account" {
-  description = "An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com."
+variable "region" {
+  description = "The region to operate under, if not specified by a given resource."
+  default     = "us-central1"
+}
+
+variable "slash_command" {
+  description = "Name of slash command in Slack"
+  default     = "drive"
 }
 
 variable "slash_command_function_name" {

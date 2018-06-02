@@ -17,7 +17,7 @@ data "template_file" "config" {
 
 // Source code module
 module "slack_drive" {
-  source = "github.com/amancevice/slack-drive?ref=0.4.1"
+  source = "github.com/amancevice/slack-drive?ref=0.5.0"
   config = "${data.template_file.config.rendered}"
 }
 
@@ -29,7 +29,7 @@ resource "google_storage_bucket" "slack_drive_bucket" {
 
 // Add service acct as writer to Cloud Storage Bucket
 resource "google_storage_bucket_iam_member" "member" {
-  bucket = "${var.bucket_name}"
+  bucket = "${google_storage_bucket.slack_drive_bucket.name}"
   role   = "roles/storage.objectCreator"
   member = "serviceAccount:${var.service_account}"
 }

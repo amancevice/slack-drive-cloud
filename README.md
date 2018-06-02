@@ -2,18 +2,84 @@
 
 Terraform module for deploying Slack Drive to Google Cloud
 
-## Simple Config
+## Setup
 
-After following the deployment instructions on the [Slack Drive](https://github.com/amancevice/slack-drive) homepage, the following configuration is a simple use case for deploying the app:
+Follow the pre-setup instructions on the [Slack Drive](https://github.com/amancevice/slack-drive) homepage to create your Google Cloud project & Slack App, including the required Slack tokens.
+
+## Deploy
+
+Inside a project directory called `slack-drive` and copy your `client_secret.json` file downloaded from the Google Cloud console inside.
+
+Copy the [example configuration](#example-configuration) into a `terraform.tf` file in the same directory.
+
+Run `terraform init` to initalize the project.
+
+Run `terraform apply` to inspect and approve the infrastructure.
+
+## Example Configuration
 
 ```terraform
+provider "google" {
+  credentials = "${file("client_secret.json")}"
+  project     = "${var.project}"
+  region      = "us-central1"
+  version     = "~> 1.13"
+}
+
 module "slack_drive_cloud" {
-  source            = "amancevice/slack-drive/google"
-  version           = "0.2.0"
-  app_version       = "0.1.3"
-  bucket_name       = "my-project-slack-drive"
-  cloud_credentials = "${file("client_secret.json")}"
-  cloud_project     = "my-project"
-  service_account   = "slack-drive@my-project.iam.gserviceaccount.com"
+  source             = "amancevice/slack-drive/google"
+  version            = "0.4.0"
+  bucket_name        = "${var.bucket_name}"
+  channel            = "${var.channel}"
+  project            = "${var.project}"
+  service_account    = "${var.service_account}"
+  verification_token = "${var.verification_token}"
+  web_api_token      = "${var.web_api_token}"
+}
+
+variable "bucket_name" {
+  description = "Cloud Storage bucket for storing Cloud Function code archives."
+  //default     = "my-project-slack-drive"
+}
+
+variable "channel" {
+  description = "Slack channel ID for logging messages."
+  //default     = "CABCD1234"
+}
+
+variable "project" {
+  description = "The ID of the project to apply any resources to."
+  //default     = "my-project-123456"
+}
+
+variable "service_account" {
+  description = "An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com."
+  //default     = "name@project.iam.gserviceaccount.com"
+}
+
+variable "verification_token" {
+  description = "Slack verification token."
+  //default     = "<token>"
+}
+
+variable "web_api_token" {
+  description = "Slack Web API token."
+  //default     = "<token>"
+}
+
+output "event_pubsub_topic" {
+  value = "${module.slack_drive_cloud.event_pubsub_topic}"
+}
+
+output "event_subscriptions_url" {
+  value = "${module.slack_drive_cloud.event_subscriptions_url}"
+}
+
+output "redirect_url" {
+  value = "${module.slack_drive_cloud.redirect_url}"
+}
+
+output "slash_command_url" {
+  value = "${module.slack_drive_cloud.slash_command_url}"
 }
 ```

@@ -9,6 +9,10 @@ variable "channel" {
   description = "Slack channel ID for logging messages."
 }
 
+variable "config" {
+  description = "Rendered Slack Drive `config.tpl` JSON content."
+}
+
 variable "project" {
   description = "The ID of the project to apply any resources to."
 }

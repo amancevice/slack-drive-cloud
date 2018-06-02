@@ -1,19 +1,24 @@
+// Config template
+data "template_file" "config" {
+  template = "${var.config}"
+
+  vars {
+    channel                = "${var.channel}"
+    color                  = "${var.color}"
+    events_pubsub_topic    = "${var.events_pubsub_topic}"
+    project                = "${var.project}"
+    redirect_function_name = "${var.redirect_function_name}"
+    region                 = "${var.region}"
+    slash_command          = "${var.slash_command}"
+    verification_token     = "${var.verification_token}"
+    web_api_token          = "${var.web_api_token}"
+  }
+}
+
 // Source code module
 module "slack_drive" {
-  source                        = "github.com/amancevice/slack-drive?ref=0.3.1"
-  channel                       = "${var.channel}"
-  project                       = "${var.project}"
-  service_account               = "${var.service_account}"
-  verification_token            = "${var.verification_token}"
-  web_api_token                 = "${var.web_api_token}"
-  color                         = "${var.color}"
-  events_pubsub_topic           = "${var.events_pubsub_topic}"
-  event_consumer_function_name  = "${var.event_consumer_function_name}"
-  event_publisher_function_name = "${var.event_publisher_function_name}"
-  redirect_function_name        = "${var.redirect_function_name}"
-  region                        = "${var.region}"
-  slash_command                 = "${var.slash_command}"
-  slash_command_function_name   = "${var.slash_command_function_name}"
+  source = "github.com/amancevice/slack-drive?ref=0.4.0"
+  config = "${data.template_file.config.rendered}"
 }
 
 // Cloud Storage Bucket for storing Cloud Function archives

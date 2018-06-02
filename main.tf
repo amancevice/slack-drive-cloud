@@ -1,6 +1,6 @@
 // Source code module
 module "slack_drive" {
-  source                        = "github.com/amancevice/slack-drive?ref=0.3.0"
+  source                        = "github.com/amancevice/slack-drive?ref=0.3.1"
   channel                       = "${var.channel}"
   project                       = "${var.project}"
   service_account               = "${var.service_account}"

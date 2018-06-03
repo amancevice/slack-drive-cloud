@@ -17,7 +17,7 @@ data "template_file" "config" {
 
 // Source code module
 module "slack_drive" {
-  source = "github.com/amancevice/slack-drive?ref=0.5.1"
+  source = "github.com/amancevice/slack-drive?ref=0.5.2"
   config = "${data.template_file.config.rendered}"
 }
 

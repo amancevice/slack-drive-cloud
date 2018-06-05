@@ -21,6 +21,10 @@ variable "service_account" {
   description = "An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com."
 }
 
+variable "slack_drive_version" {
+  description = "Version of Slack Drive app."
+}
+
 variable "verification_token" {
   description = "Slack verification token."
 }

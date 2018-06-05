@@ -17,7 +17,7 @@ data "template_file" "config" {
 
 // Source code module
 module "slack_drive" {
-  source = "github.com/amancevice/slack-drive?ref=0.5.4"
+  source = "github.com/amancevice/slack-drive?ref=0.5.5"
   config = "${data.template_file.config.rendered}"
 }
 
@@ -37,28 +37,28 @@ resource "google_storage_bucket_iam_member" "member" {
 // Event Consumer Cloud Storage archive
 resource "google_storage_bucket_object" "event_consumer_archive" {
   bucket = "${google_storage_bucket.slack_drive_bucket.name}"
-  name   = "${var.bucket_prefix}${var.event_consumer_function_name}.zip"
+  name   = "${var.bucket_prefix}${var.event_consumer_function_name}-${module.slack_drive.version}.zip"
   source = "${module.slack_drive.event_consumer_output_path}"
 }
 
 // Event Publisher Cloud Storage archive
 resource "google_storage_bucket_object" "event_publisher_archive" {
   bucket = "${google_storage_bucket.slack_drive_bucket.name}"
-  name   = "${var.bucket_prefix}${var.event_publisher_function_name}.zip"
+  name   = "${var.bucket_prefix}${var.event_publisher_function_name}-${module.slack_drive.version}.zip"
   source = "${module.slack_drive.event_publisher_output_path}"
 }
 
 // Redirect Cloud Storage archive
 resource "google_storage_bucket_object" "redirect_archive" {
   bucket = "${google_storage_bucket.slack_drive_bucket.name}"
-  name   = "${var.bucket_prefix}${var.redirect_function_name}.zip"
+  name   = "${var.bucket_prefix}${var.redirect_function_name}-${module.slack_drive.version}.zip"
   source = "${module.slack_drive.redirect_output_path}"
 }
 
 // Slash Command Cloud Storage archive
 resource "google_storage_bucket_object" "slash_command_archive" {
   bucket = "${google_storage_bucket.slack_drive_bucket.name}"
-  name   = "${var.bucket_prefix}${var.slash_command_function_name}.zip"
+  name   = "${var.bucket_prefix}${var.slash_command_function_name}-${module.slack_drive.version}.zip"
   source = "${module.slack_drive.slash_command_output_path}"
 }
 

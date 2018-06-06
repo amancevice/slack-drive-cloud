@@ -1,36 +1,55 @@
 # Slack Drive Terraform Module
 
-Terraform module for deploying Slack Drive to Google Cloud
+Terraform module for deploying Slack Drive to Google Cloud.
 
-## Setup
+## Quickstart
 
-Follow the pre-setup instructions on the [Slack Drive](https://github.com/amancevice/slack-drive) homepage to create your Google Cloud project & Slack App, including the required Slack tokens.
-
-## Deploy
-
-Inside a project directory called `slack-drive` and copy your `client_secret.json` file downloaded from the Google Cloud console inside.
-
-Copy the [example configuration](#example-configuration) into a `terraform.tf` file in the same directory.
-
-Run `terraform init` to initalize the project.
-
-Run `terraform apply` to inspect and approve the infrastructure.
-
-## Example Configuration
+Create a `terraform.tfvars` file with your access keys & custom configuration:
 
 ```terraform
+# terraform.tfvars
+
+bucket_name        = "<cloud-storage-bucket>"
+channel            = "<slack-drive-logging-channel>"
+project            = "<cloud-project-123456>"
+service_account    = "<slack-drive@<cloud-project-123456>.iam.gserviceaccount.com>"
+verification_token = "<verification-token>"
+web_api_token      = "<web-api-token>"
+
+users {
+
+  # exclude these users
+  excluded = [
+    "USLACKBOT"
+  ]
+
+  # *only* allow these users
+  included = [
+  ]
+
+}
+
+```
+
+Create a `terraform.tf` file with these contents:
+
+```terraform
+# terraform.tf
+
 provider "google" {
-  credentials = "${file("client_secret.json")}"
+  credentials = "${file("${var.client_secret}")}"
   project     = "${var.project}"
-  region      = "us-central1"
+  region      = "${var.region}"
   version     = "~> 1.13"
 }
 
-module "slack_drive_cloud" {
+module "slack_drive" {
   source             = "amancevice/slack-drive/google"
-  version            = "0.4.0"
+  version            = "<module-version>"
   bucket_name        = "${var.bucket_name}"
   channel            = "${var.channel}"
+  client_secret      = "${file("${var.client_secret}")}"
+  color              = "${var.color}"
   project            = "${var.project}"
   service_account    = "${var.service_account}"
   verification_token = "${var.verification_token}"
@@ -39,47 +58,68 @@ module "slack_drive_cloud" {
 
 variable "bucket_name" {
   description = "Cloud Storage bucket for storing Cloud Function code archives."
-  //default     = "my-project-slack-drive"
 }
 
 variable "channel" {
   description = "Slack channel ID for logging messages."
-  //default     = "CABCD1234"
+}
+
+variable "client_secret" {
+  description = "Google Cloud client secret JSON filename."
+  default     = "client_secret.json"
+}
+
+variable "color" {
+  description = "Default color for slackbot message attachments."
+  default     = "good"
 }
 
 variable "project" {
   description = "The ID of the project to apply any resources to."
-  //default     = "my-project-123456"
+}
+
+variable "region" {
+  description = "The region to operate under, if not specified by a given resource."
+  default     = "us-central1"
 }
 
 variable "service_account" {
   description = "An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com."
-  //default     = "name@project.iam.gserviceaccount.com"
 }
 
 variable "verification_token" {
   description = "Slack verification token."
-  //default     = "<token>"
 }
 
 variable "web_api_token" {
   description = "Slack Web API token."
-  //default     = "<token>"
 }
 
-output "event_pubsub_topic" {
-  value = "${module.slack_drive_cloud.event_pubsub_topic}"
+output "pubsub_topic" {
+  value = "${module.slack_drive.event_pubsub_topic}"
 }
 
 output "event_subscriptions_url" {
-  value = "${module.slack_drive_cloud.event_subscriptions_url}"
+  value = "${module.slack_drive.event_subscriptions_url}"
 }
 
 output "redirect_url" {
-  value = "${module.slack_drive_cloud.redirect_url}"
+  value = "${module.slack_drive.redirect_url}"
 }
 
 output "slash_command_url" {
-  value = "${module.slack_drive_cloud.slash_command_url}"
+  value = "${module.slack_drive.slash_command_url}"
 }
+```
+
+In a terminal window, initialize the state:
+
+```bash
+terraform init
+```
+
+Then review & apply the changes
+
+```bash
+terraform apply
 ```

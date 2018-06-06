@@ -9,8 +9,8 @@ variable "channel" {
   description = "Slack channel ID for logging messages."
 }
 
-variable "config" {
-  description = "Rendered Slack Drive `config.tpl` JSON content."
+variable "client_secret" {
+  description = "Google Cloud client secret JSON."
 }
 
 variable "project" {
@@ -47,9 +47,9 @@ variable "color" {
   default     = "good"
 }
 
-variable "events_pubsub_topic" {
+variable "pubsub_topic" {
   description = "Pub/Sub topic name."
-  default     = "slack-drive-events"
+  default     = "slack-events"
 }
 
 variable "event_consumer_function_name" {
@@ -69,7 +69,7 @@ variable "event_consumer_timeout" {
 
 variable "event_publisher_function_name" {
   description = "Cloud Function for publishing events from Slack to Pub/Sub."
-  default     = "slack-drive-event-publisher"
+  default     = "slack-event-publisher"
 }
 
 variable "event_publisher_memory" {
@@ -79,7 +79,7 @@ variable "event_publisher_memory" {
 
 variable "event_publisher_timeout" {
   description = "Timeout in seconds for Slack event listener."
-  default     = 60
+  default     = 10
 }
 
 variable "redirect_function_name" {
@@ -119,5 +119,17 @@ variable "slash_command_memory" {
 
 variable "slash_command_timeout" {
   description = "Timeout in seconds for Slack slash command."
-  default     = 60
+  default     = 10
+}
+
+variable "users" {
+  description = "Users to include/exclude"
+  type        = "map"
+
+  default {
+    included = []
+    excluded = [
+      "USLACKBOT"
+    ]
+  }
 }

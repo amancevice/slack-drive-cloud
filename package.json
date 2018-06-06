@@ -1,6 +1,6 @@
 {
   "name": "slack-drive",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Consume Slack events from Pub/Sub",
   "main": "index.js",
   "dependencies": {

@@ -59,7 +59,7 @@ variable "event_consumer_function_name" {
 
 variable "event_consumer_memory" {
   description = "Memory for Slack event consumer."
-  default     = 128
+  default     = 512
 }
 
 variable "event_consumer_timeout" {
@@ -74,7 +74,7 @@ variable "event_publisher_function_name" {
 
 variable "event_publisher_memory" {
   description = "Memory for Slack event listener."
-  default     = 128
+  default     = 512
 }
 
 variable "event_publisher_timeout" {
@@ -89,7 +89,7 @@ variable "redirect_function_name" {
 
 variable "redirect_memory" {
   description = "Memory for Slack redirect."
-  default     = 128
+  default     = 512
 }
 
 variable "redirect_timeout" {
@@ -114,7 +114,7 @@ variable "slash_command_function_name" {
 
 variable "slash_command_memory" {
   description = "Memory for Slack slash command."
-  default     = 128
+  default     = 512
 }
 
 variable "slash_command_timeout" {

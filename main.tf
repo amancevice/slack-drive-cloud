@@ -1,5 +1,5 @@
 locals {
-  version = "0.7.0"
+  version = "0.7.1"
 }
 
 resource "google_storage_bucket" "bucket" {
@@ -15,7 +15,7 @@ resource "google_storage_bucket_iam_member" "member" {
 
 module "slack_event_publisher" {
   source             = "amancevice/slack-event-publisher/google"
-  version            = "0.1.0"
+  version            = "0.1.1"
   bucket_name        = "${google_storage_bucket.bucket.name}"
   client_secret      = "${var.client_secret}"
   function_name      = "${var.event_publisher_function_name}"
@@ -28,7 +28,7 @@ module "slack_event_publisher" {
 
 module "slack_drive_event_consumer" {
   source        = "amancevice/slack-drive-event-consumer/google"
-  version       = "0.1.1"
+  version       = "0.1.2"
   bucket_name   = "${google_storage_bucket.bucket.name}"
   channel       = "${var.channel}"
   client_secret = "${var.client_secret}"
@@ -42,7 +42,7 @@ module "slack_drive_event_consumer" {
 
 module "slack_drive_redirect" {
   source        = "amancevice/slack-drive-redirect/google"
-  version       = "0.1.1"
+  version       = "0.1.2"
   bucket_name   = "${google_storage_bucket.bucket.name}"
   channel       = "${var.channel}"
   client_secret = "${var.client_secret}"
@@ -56,7 +56,7 @@ module "slack_drive_redirect" {
 
 module "slack_drive_slash_command" {
   source             = "amancevice/slack-drive-slash-command/google"
-  version            = "0.1.2"
+  version            = "0.1.3"
   bucket_name        = "${google_storage_bucket.bucket.name}"
   channel            = "${var.channel}"
   client_secret      = "${var.client_secret}"

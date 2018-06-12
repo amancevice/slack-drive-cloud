@@ -7,7 +7,7 @@ provider "template" {
 }
 
 locals {
-  version = "1.0.2"
+  version = "1.1.0"
 
   auth {
     channels {
@@ -302,37 +302,37 @@ data "archive_file" "slash_command_archive" {
 
 resource "google_storage_bucket_object" "channel_rename_archive" {
   bucket = "${var.bucket_name}"
-  name   = "${var.bucket_prefix}${var.channel_rename_function_name}-${local.version}.zip"
+  name   = "${var.bucket_prefix}${var.channel_rename_function_name}-${local.version}-${md5(file("${data.archive_file.channel_rename_archive.output_path}"))}.zip"
   source = "${data.archive_file.channel_rename_archive.output_path}"
 }
 
 resource "google_storage_bucket_object" "group_rename_archive" {
   bucket = "${var.bucket_name}"
-  name   = "${var.bucket_prefix}${var.group_rename_function_name}-${local.version}.zip"
+  name   = "${var.bucket_prefix}${var.group_rename_function_name}-${local.version}-${md5(file("${data.archive_file.group_rename_archive.output_path}"))}.zip"
   source = "${data.archive_file.group_rename_archive.output_path}"
 }
 
 resource "google_storage_bucket_object" "member_joined_channel_archive" {
   bucket = "${var.bucket_name}"
-  name   = "${var.bucket_prefix}${var.member_joined_channel_function_name}-${local.version}.zip"
+  name   = "${var.bucket_prefix}${var.member_joined_channel_function_name}-${local.version}-${md5(file("${data.archive_file.member_joined_channel_archive.output_path}"))}.zip"
   source = "${data.archive_file.member_joined_channel_archive.output_path}"
 }
 
 resource "google_storage_bucket_object" "member_left_channel_archive" {
   bucket = "${var.bucket_name}"
-  name   = "${var.bucket_prefix}${var.member_left_channel_function_name}-${local.version}.zip"
+  name   = "${var.bucket_prefix}${var.member_left_channel_function_name}-${local.version}-${md5(file("${data.archive_file.member_left_channel_archive.output_path}"))}.zip"
   source = "${data.archive_file.member_left_channel_archive.output_path}"
 }
 
 resource "google_storage_bucket_object" "redirect_archive" {
   bucket = "${var.bucket_name}"
-  name   = "${var.bucket_prefix}${var.redirect_function_name}-${local.version}.zip"
+  name   = "${var.bucket_prefix}${var.redirect_function_name}-${local.version}-${md5(file("${data.archive_file.redirect_archive.output_path}"))}.zip"
   source = "${data.archive_file.redirect_archive.output_path}"
 }
 
 resource "google_storage_bucket_object" "slash_command_archive" {
   bucket = "${var.bucket_name}"
-  name   = "${var.bucket_prefix}${var.slash_command_function_name}-${local.version}.zip"
+  name   = "${var.bucket_prefix}${var.slash_command_function_name}-${local.version}-${md5(file("${data.archive_file.slash_command_archive.output_path}"))}.zip"
   source = "${data.archive_file.slash_command_archive.output_path}"
 }
 

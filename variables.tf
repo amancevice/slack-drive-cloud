@@ -3,11 +3,6 @@ variable "bucket_name" {
   description = "Cloud Storage bucket for storing Cloud Function code archives."
 }
 
-variable "bucket_prefix" {
-  description = "Prefix for Cloud Storage bucket."
-  default     = ""
-}
-
 variable "client_secret" {
   description = "Google Cloud client secret JSON."
 }

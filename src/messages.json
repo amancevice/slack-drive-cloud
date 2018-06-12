@@ -1,0 +1,153 @@
+{
+  "bad_token": {
+    "text": ":old_key: Bad Slack verification token."
+  },
+  "bad_channel": {
+    "text": ":tv: You have to be in a channel to do this."
+  },
+  "bad_user": {
+    "text": ":crying_cat_face: Sorry, you aren't allowed to do this yet."
+  },
+  "error": {
+    "text": ":boom: Uh oh, something went wrong :boom:",
+    "attachments": [
+      {
+        "color": "danger",
+        "fallback": "Error",
+        "title": "Documentation",
+        "title_link": "https://github.com/amancevice/slack-drive",
+        "mrkdwn_in": ["fields"],
+        "fields": [
+          {
+            "title": "${error_name}",
+            "value": "${error_message}"
+          },
+          {
+            "title": "Stacktrace",
+            "value": "```${stack}```"
+          },
+          {
+            "title": "Event",
+            "value": "```${event}```"
+          }
+        ],
+        "footer": "Slack | Google Drive",
+        "ts": "${ts}"
+      }
+    ]
+  },
+  "slash_command": {
+    "text": "Members of ${channel} have access to a private Google Drive.\nInvite other members into this channel to give them access!",
+    "attachments": [
+      {
+        "color": "${color}",
+        "fallback": "Link to Google Drive.",
+        "mrkdwn_in": [
+          "fields"
+        ],
+        "fields": [
+          {
+            "title": "Directions",
+            "value": "Type `/${cmd}` in any channel to show this message."
+          },
+          {
+            "title": "Caveats",
+            "value": "This tool works best if the email you used to sign up for Slack is the same one you use for Google Drive."
+          }
+        ],
+        "actions": [
+          {
+            "style": "primary",
+            "type": "button",
+            "text": "Google Drive",
+            "url": "${url}"
+          },
+          {
+            "type": "button",
+            "text": "Change Slack Email",
+            "url": "https://${team}.slack.com/account/settings#email"
+          }
+        ]
+      }
+    ]
+  },
+  "success": {
+    "text": ":sparkles: A new event has been processed :sparkles:",
+    "attachments": [
+      {
+        "color": "good",
+        "fallback": "Success",
+        "fields": [
+          {
+            "title": "Channel",
+            "value": "${channel}",
+            "short": true
+          },
+          {
+            "title": "User",
+            "value": "${user}",
+            "short": true
+          },
+          {
+            "title": "Event",
+            "value": "```${event}```"
+          }
+        ],
+        "footer": "Slack | Google Drive",
+        "mrkdwn_in": ["fields"],
+        "title": "${title}",
+        "title_link": "https://github.com/amancevice/slack-drive",
+        "ts": "${ts}"
+      }
+    ]
+  },
+  "member_joined_channel": {
+    "text": ":sparkles: Welcome to ${channel} :sparkles:\nMembers of this channel have access to a private Google Drive.\nInvite other members into this channel to give them access!",
+    "attachments": [
+      {
+        "color": "${color}",
+        "fallback": "Link to Google Drive.",
+        "mrkdwn_in": [
+          "fields"
+        ],
+        "fields": [
+          {
+            "title": "Directions",
+            "value": "Type `/${cmd}` in any channel to show this message."
+          },
+          {
+            "title": "Caveats",
+            "value": "This tool works best if the email you used to sign up for Slack is the same one you use for Google Drive."
+          }
+        ],
+        "actions": [
+          {
+            "style": "primary",
+            "type": "button",
+            "text": "Google Drive",
+            "url": "${url}"
+          },
+          {
+            "type": "button",
+            "text": "Change Slack Email",
+            "url": "https://${team}.slack.com/account/settings#email"
+          }
+        ]
+      }
+    ]
+  },
+  "member_left_channel": {
+    "attachments": [
+      {
+        "color": "warning",
+        "fallback": "Goodbye from ${channel} :wave:",
+        "text": "Goodbye from ${channel} :wave:\nYou have been removed from this channel's Google Drive folder.\nRe-join the channel to gain access again.",
+        "mrkdwn_in": [
+          "text"
+        ],
+        "footer": "Slack | Google Drive",
+        "ts": "${ts}"
+      }
+    ]
+  }
+}

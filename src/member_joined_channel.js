@@ -62,7 +62,7 @@ function titlize(str) {
  * @param {object} e.data Base64-encoded message data.
  */
 function logEvent(e) {
-  console.log(`PUBSUB MESSAGE ${JSON.stringify(e)}`);
+  console.log(`PUB/SUB MESSAGE ${JSON.stringify(e)}`);
   return e;
 }
 
@@ -77,14 +77,26 @@ function decodeEvent(e) {
 }
 
 /**
- * Determine if event is a user-event.
+ * Base64-decode PubSub message.
  *
  * @param {object} e Slack event object message.
  * @param {object} e.event Slack event object.
  */
-function userEvent(e) {
-  return e.event.type === 'member_joined_channel' ||
-         e.event.type === 'member_left_channel';
+function processEvent(e) {
+  if (userPermitted(e)) {
+    return Promise.resolve(e)
+      .then(getTeam)
+      .then(getChannel)
+      .then(getUser)
+      .then(findOrCreateFolder)
+      .then(addPermission)
+      .then(recordPermission)
+      .then(postResponse)
+      .then(postRecord);
+  }
+  else {
+    return Promise.resolve(e);
+  }
 }
 
 /**
@@ -106,7 +118,6 @@ function userPermitted(e) {
  * @param {object} e.event Slack event object.
  */
 function getTeam(e) {
-
   return slack.team.info({team: e.team_id})
     .then((res) => {
       console.log(`TEAM ${res.team.domain}`);
@@ -126,15 +137,8 @@ function getTeam(e) {
  * @param {object} e.event Slack event object.
  */
 function getChannel(e) {
-
-  // No need to call Slack if `channel` is already an object
-  if (typeof e.event.channel === 'object') {
-    channel = e.event.channel;
-    return Promise.resolve(e);
-  }
-
   // Get channel info from Slack
-  else if (e.event.channel_type === 'C') {
+  if (e.event.channel_type === 'C') {
     return slack.channels.info({channel: e.event.channel})
       .then((res) => {
         console.log(`CHANNEL #${res.channel.name}`);
@@ -171,10 +175,6 @@ function getChannel(e) {
  * @param {object} e.event Slack event object.
  */
 function getUser(e) {
-
-  // No need to get user info if no user in event
-  if (e.event.user === undefined) return Promise.resolve(e);
-
   // Get user info from Slack
   return slack.users.info({user: e.event.user})
     .then((res) => {
@@ -195,7 +195,6 @@ function getUser(e) {
  * @param {object} e.event Slack event object.
  */
 function findOrCreateFolder(e) {
-
   // Search for folder by channel ID in `appProperties`
   return drive.files.list({
       q: `appProperties has { key='channel' and value='${channel.id}' }`
@@ -244,7 +243,7 @@ function findOrCreateFolder(e) {
  */
 function addPermission(e) {
   // Grant permission (ignoring bot users)
-  if (!user.is_bot && e.event.type === 'member_joined_channel') {
+  if (!user.is_bot) {
     return drive.permissions.create({
         fileId: folder.id,
         sendNotificationEmail: false,
@@ -287,7 +286,6 @@ function recordPermission(e) {
  * @param {object} e.event Slack event object.
  */
 function postResponse(e) {
-
   // Build message
   response = interpolate(messages[e.event.type], {
     channel: e.event.channel_type === 'C' ? `<#${channel.id}>` : `#${channel.name}`,
@@ -298,36 +296,13 @@ function postResponse(e) {
     url: `${prefix}${folder.id}`
   });
 
-  // Member joined channel
-  if (e.event.type === 'member_joined_channel') {
+  // Route message
+  response.channel = channel.id;
+  response.user = user.id;
 
-    // Route message
-    response.channel = channel.id;
-    response.user = user.id;
-
-    // Post ephemeral message
-    console.log('POSTING EPHEMERAL RESPONSE');
-    return slack.chat.postEphemeral(response).then((res) => { return e; });
-  }
-
-  // Member left channel
-  else if (e.event.type === 'member_left_channel') {
-
-    // Open DM
-    return slack.im.open({user: user.id})
-      .then((res) => {
-
-        // Route message
-        response.channel = res.channel.id;
-
-        // Post DM to user
-        console.log('POSTING DIRECT RESPONSE');
-        return slack.chat.postMessage(response).then((res) => { return e; });
-      })
-  }
-
-  // No ephemeral message necessary
-  return Promise.resolve(e);
+  // Post ephemeral message
+  console.log('POSTING EPHEMERAL RESPONSE');
+  return slack.chat.postEphemeral(response).then((res) => { return e; });
 }
 
 /**
@@ -337,7 +312,6 @@ function postResponse(e) {
  * @param {object} e.event Slack event object.
  */
 function postRecord(e) {
-
   // Build message
   record = interpolate(messages.success, {
     channel: e.event.channel_type === 'C' ? `<#${channel.id}>` : `#${channel.name}`,
@@ -390,14 +364,7 @@ exports.consumeEvent = (event, callback) => {
   Promise.resolve(event.data)
     .then(logEvent)
     .then(decodeEvent)
-    .then(getTeam)
-    .then(getChannel)
-    .then(getUser)
-    .then(findOrCreateFolder)
-    .then(addPermission)
-    .then(recordPermission)
-    .then(postResponse)
-    .then(postRecord)
+    .then(processEvent)
     .then(callback)
     .catch((err) => postError(err, event.data, callback));
 };

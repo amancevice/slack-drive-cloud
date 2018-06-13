@@ -7,7 +7,7 @@ provider "template" {
 }
 
 locals {
-  version = "1.2.0"
+  version = "1.2.1"
 
   auth {
     channels {

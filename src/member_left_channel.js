@@ -98,6 +98,7 @@ function processEvent(e) {
   else {
     return Promise.resolve(e);
   }
+}
 
 /**
  * Determine if user is permitted to use this service.
